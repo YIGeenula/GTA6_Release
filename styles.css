@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/Landscape/img01.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    text-shadow: 0 0 10px rgba(255, 59, 0, 0.7);
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.time-segment {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 59, 0, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 150px;
+    box-shadow: 0 0 15px rgba(255, 59, 0, 0.3);
+}
+
+.time-value {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #ff3b00;
+}
+
+.time-label {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    
+    .time-segment {
+        min-width: 120px;
+        padding: 15px;
+    }
+    
+    .time-value {
+        font-size: 3rem;
+    }
+    
+    .time-label {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    
+    .time-segment {
+        min-width: 120px;
+        padding: 15px;
+    }
+    
+    .time-value {
+        font-size: 3rem;
+    }
+    
+    .time-label {
+        font-size: 1rem;
+    }
+    
+    /* Switch to mobile background image */
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/Portrait/img01.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown {
+        gap: 10px;
+    }
+    
+    .time-segment {
+        min-width: 80px;
+        padding: 10px;
+    }
+    
+    .time-value {
+        font-size: 2rem;
+    }
+    
+    .time-label {
+        font-size: 0.8rem;
+    }
+}

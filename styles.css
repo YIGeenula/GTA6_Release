@@ -667,3 +667,145 @@ footer {
         font-size: 1rem;
     }
 }
+
+/* Landscape Mode Styles */
+/* Force landscape orientation */
+@media screen and (max-device-width: 992px) {
+    :root:has(.trailer-container.active) {
+        overflow: hidden !important;
+    }
+    
+    .trailer-container.active {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+/* Hide header in landscape on mobile */
+@media (max-width: 992px) and (orientation: landscape) {
+    header {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+  
+    /* Optional: Show header when menu is active */
+    header.active {
+      transform: translateY(0);
+    }
+  }
+
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero-section {
+        height: auto;
+        min-height: 100vh;
+        padding: 100px 0 50px;
+    }
+    
+    .countdown {
+        gap: 15px;
+    }
+    
+    .time-segment {
+        min-width: 90px;
+        padding: 10px;
+    }
+    
+    .time-value {
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+    
+    .time-label {
+        font-size: 0.8rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+    
+    .release-date {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    section {
+        padding: 50px 0;
+    }
+    
+    .about-content {
+        gap: 20px;
+    }
+    
+    .news-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .news-card {
+        padding: 20px;
+    }
+    
+    .news-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .customize-container {
+        top: 20px;
+    }
+}
+
+@media (max-height: 450px) and (orientation: landscape) {
+    .hero-section {
+        padding: 80px 0 30px;
+    }
+    
+    .countdown {
+        flex-wrap: nowrap;
+        gap: 10px;
+        margin: 15px 0 20px;
+    }
+    
+    .time-segment {
+        min-width: 70px;
+        padding: 8px;
+    }
+    
+    .time-value {
+        font-size: 1.5rem;
+        margin-bottom: 2px;
+    }
+    
+    .time-label {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+    }
+    
+    .release-date {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    
+    h2::after {
+        bottom: -5px;
+        height: 2px;
+    }
+}

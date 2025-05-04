@@ -130,12 +130,30 @@ document.addEventListener('DOMContentLoaded', function() {
             customizePanel.classList.remove('active');
         }
     });
+
+    // Add mobile detection function
+    function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    document.documentElement.requestFullscreen()
+    .catch(err => console.log('Fullscreen failed:', err));
     
     // 1. Switch to GTA 6 Trailer
     toggleTrailerBtn.addEventListener('click', function() {
-        const isShowingTrailer = trailerContainer.classList.contains('active');
+    const isShowingTrailer = trailerContainer.classList.contains('active');
         
         if (!isShowingTrailer) {
+            // For mobile devices
+        if (isMobile()) {
+            // Lock orientation to landscape if supported
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(() => {});
+            }
+            
+            // Force fullscreen view
+            document.documentElement.requestFullscreen().catch(() => {});
+            trailerContainer.classList.add('mobile-fullscreen');
+        }
             // Scroll to top of page
             window.scrollTo({
                 top: 0,
@@ -150,6 +168,19 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleTrailerBtn.classList.add('active');
             toggleMuteBtn.disabled = false;
         } else {
+            // For mobile devices
+        if (isMobile()) {
+            // Unlock orientation
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+            
+            // Exit fullscreen
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            trailerContainer.classList.remove('mobile-fullscreen');
+        }
             // Switch back to background image
             if (youtubePlayer) {
                 youtubePlayer.destroy();
@@ -226,18 +257,23 @@ document.addEventListener('DOMContentLoaded', function() {
         youtubePlayer = new YT.Player('youtube-player', {
             videoId: trailerVideoId,
             playerVars: {
-                autoplay: 1,
-                controls: 0,
-                modestbranding: 1,
-                loop: 1,
-                playlist: trailerVideoId,
-                rel: 0,
-                showinfo: 0
+            autoplay: 1,
+            controls: 0,
+            modestbranding: 1,
+            loop: 1,
+            playlist: trailerVideoId,
+            rel: 0,
+            showinfo: 0,
+            playsinline: 0, // Force fullscreen playback on iOS
+            fs: 1 // Show fullscreen button
             },
             events: {
                 onReady: function(event) {
-                    // Video is ready to play
                     event.target.playVideo();
+                    // Mobile-specific initialization
+                    if (isMobile()) {
+                        event.target.setPlaybackQuality('hd1080');
+                    }
                 }
             }
         });

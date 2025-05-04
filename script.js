@@ -44,4 +44,196 @@ document.addEventListener('DOMContentLoaded', function() {
     function formatTime(time) {
         return time < 10 ? `0${time}` : time;
     }
+
+    // Mobile Menu Toggle
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const nav = document.querySelector('nav');
+    
+    if (menuBtn) {
+        menuBtn.addEventListener('click', function() {
+            nav.classList.toggle('active');
+            
+            // Toggle menu icon
+            const icon = this.querySelector('i');
+            if (nav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    }
+
+    // Close menu when clicking on a link
+    const navLinks = document.querySelectorAll('nav ul li a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 992) {
+                nav.classList.remove('active');
+                const icon = menuBtn.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
+    
+    // Add scroll event listener to update active navigation link
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section');
+        const scrollPosition = window.scrollY + 100; // Adding offset for better UX
+        
+        // Check which section is currently in view
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                // Remove active class from all links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Add active class to the corresponding link
+                const activeLink = document.querySelector(`nav ul li a[href="#${sectionId}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+        });
+    });
+    
+    // ===== CUSTOMIZE FUNCTIONALITY =====
+    
+    // YouTube trailer video ID (GTA 6 Trailer)
+    const trailerVideoId = 'QdBZY2fkU-0';
+    let youtubePlayer = null;
+    
+    // Elements
+    const customizeBtn = document.getElementById('customize-btn');
+    const customizePanel = document.getElementById('customize-panel');
+    const toggleTrailerBtn = document.getElementById('toggle-trailer');
+    const toggleMuteBtn = document.getElementById('toggle-mute');
+    const toggleContentBtn = document.getElementById('toggle-content');
+    const trailerContainer = document.getElementById('trailer-container');
+    const heroSection = document.querySelector('.hero-section');
+    
+    // Toggle customize panel
+    customizeBtn.addEventListener('click', function() {
+        customizePanel.classList.toggle('active');
+    });
+    
+    // Close panel when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!customizePanel.contains(event.target) && event.target !== customizeBtn && !customizeBtn.contains(event.target)) {
+            customizePanel.classList.remove('active');
+        }
+    });
+    
+    // 1. Switch to GTA 6 Trailer
+    toggleTrailerBtn.addEventListener('click', function() {
+        const isShowingTrailer = trailerContainer.classList.contains('active');
+        
+        if (!isShowingTrailer) {
+            // Switch to trailer
+            loadYouTubeTrailer();
+            trailerContainer.classList.add('active');
+            document.documentElement.classList.add('no-scroll'); // Add this line
+            toggleTrailerBtn.innerHTML = '<i class="fas fa-image"></i> Switch to Background';
+            toggleTrailerBtn.classList.add('active');
+            toggleMuteBtn.disabled = false;
+        } else {
+            // Switch back to background image
+            if (youtubePlayer) {
+                youtubePlayer.destroy();
+                youtubePlayer = null;
+            }
+            trailerContainer.classList.remove('active');
+            trailerContainer.innerHTML = '';
+            document.documentElement.classList.remove('no-scroll'); // Add this line
+            toggleTrailerBtn.innerHTML = '<i class="fas fa-film"></i> Switch to GTA 6 Trailer';
+            toggleTrailerBtn.classList.remove('active');
+            toggleMuteBtn.disabled = true;
+            toggleMuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i> Mute Trailer';
+            toggleMuteBtn.classList.remove('active');
+        }
+    });
+    
+    // 2. Mute/Unmute Trailer Audio
+    toggleMuteBtn.addEventListener('click', function() {
+        if (youtubePlayer) {
+            const isMuted = toggleMuteBtn.classList.contains('active');
+            
+            if (isMuted) {
+                // Unmute
+                youtubePlayer.unMute();
+                toggleMuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i> Mute Trailer';
+                toggleMuteBtn.classList.remove('active');
+            } else {
+                // Mute
+                youtubePlayer.mute();
+                toggleMuteBtn.innerHTML = '<i class="fas fa-volume-up"></i> Unmute Trailer';
+                toggleMuteBtn.classList.add('active');
+            }
+        }
+    });
+    
+    // 3. Hide/Show Text and Countdown
+    toggleContentBtn.addEventListener('click', function() {
+        heroSection.classList.toggle('hide-content');
+        
+        if (heroSection.classList.contains('hide-content')) {
+            toggleContentBtn.innerHTML = '<i class="fas fa-eye"></i> Show Text & Countdown';
+            toggleContentBtn.classList.add('active');
+        } else {
+            toggleContentBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Text & Countdown';
+            toggleContentBtn.classList.remove('active');
+        }
+    });
+    
+    // Load YouTube API and create player
+    function loadYouTubeTrailer() {
+        // If YouTube API is not loaded yet
+        if (!window.YT) {
+            // Create YouTube script tag
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            
+            // Set up callback for when API is ready
+            window.onYouTubeIframeAPIReady = function() {
+                createYouTubePlayer();
+            };
+        } else {
+            // If API is already loaded
+            createYouTubePlayer();
+        }
+    }
+    
+    // Create YouTube player
+    function createYouTubePlayer() {
+        // Clear container first
+        trailerContainer.innerHTML = '<div id="youtube-player"></div>';
+        
+        youtubePlayer = new YT.Player('youtube-player', {
+            videoId: trailerVideoId,
+            playerVars: {
+                autoplay: 1,
+                controls: 0,
+                modestbranding: 1,
+                loop: 1,
+                playlist: trailerVideoId,
+                rel: 0,
+                showinfo: 0
+            },
+            events: {
+                onReady: function(event) {
+                    // Video is ready to play
+                    event.target.playVideo();
+                }
+            }
+        });
+    }
 });

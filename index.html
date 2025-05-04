@@ -3,34 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown to GTA 6 Release</title>
+    <title>Countdown to GTA 6 Release | Official Fan Countdown</title>
+    <meta name="description" content="Track the official countdown to Grand Theft Auto 6 release. Stay updated with the latest GTA 6 news and information.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Countdown to GTA 6 Release</h1>
-        <div class="countdown">
-            <div class="time-segment">
-                <div id="days" class="time-value">00</div>
-                <div class="time-label">Days</div>
+    <header>
+        <div class="logo">GTA<span>VI</span> Release</div>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#countdown" class="active">Countdown</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#subscribe">Subscribe</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="countdown" class="hero-section">
+            <div class="container">
+                <h1>Countdown to GTA 6 Release</h1>
+                <p class="release-date">Confirmed Release Date: May 26, 2026</p>
+                <div class="countdown">
+                    <div class="time-segment">
+                        <div id="days" class="time-value">00</div>
+                        <div class="time-label">Days</div>
+                    </div>
+                    <div class="time-segment">
+                        <div id="hours" class="time-value">00</div>
+                        <div class="time-label">Hours</div>
+                    </div>
+                    <div class="time-segment">
+                        <div id="minutes" class="time-value">00</div>
+                        <div class="time-label">Minutes</div>
+                    </div>
+                    <div class="time-segment">
+                        <div id="seconds" class="time-value">00</div>
+                        <div class="time-label">Seconds</div>
+                    </div>
+                </div>
+                
+                <!-- Add Customize Button -->
+                <div class="customize-container">
+                    <button id="customize-btn"><i class="fas fa-cog"></i> Customize</button>
+                    
+                    <!-- Customize Options Panel -->
+                    <div id="customize-panel" class="customize-panel">
+                        <div class="customize-option">
+                            <button id="toggle-trailer"><i class="fas fa-film"></i> Switch to GTA 6 Trailer</button>
+                        </div>
+                        <div class="customize-option">
+                            <button id="toggle-mute" disabled><i class="fas fa-volume-mute"></i> Mute Trailer</button>
+                        </div>
+                        <div class="customize-option">
+                            <button id="toggle-content"><i class="fas fa-eye-slash"></i> Hide Text & Countdown</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- YouTube Trailer Container (Hidden by default) -->
+                <div id="trailer-container" class="trailer-container">
+                    <!-- YouTube iframe will be inserted here via JavaScript -->
+                </div>
             </div>
-            <div class="time-segment">
-                <div id="hours" class="time-value">00</div>
-                <div class="time-label">Hours</div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="container">
+                <h2>About GTA 6</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Grand Theft Auto VI is the next game in the popular GTA series to be released by Rockstar Games. Set in a reimagined Vice City, the game promises to deliver the most immersive and expansive open world experience to date.</p>
+                        <p>Following the massive success of GTA V, which became one of the best-selling video games of all time, GTA 6 aims to push the boundaries of what's possible in open-world gaming.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="images/Landscape/img01.jpg" alt="GTA 6 Teaser Image">
+                    </div>
+                </div>
             </div>
-            <div class="time-segment">
-                <div id="minutes" class="time-value">00</div>
-                <div class="time-label">Minutes</div>
+        </section>
+
+        <section id="news" class="news-section">
+            <div class="container">
+                <h2>Latest News</h2>
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-date">December 2023</div>
+                        <h3>First Trailer Released</h3>
+                        <p>Rockstar Games has officially released the first trailer for GTA 6, confirming the game's setting and introducing new protagonists.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-date">February 2024</div>
+                        <h3>Development Update</h3>
+                        <p>Rockstar confirms development is progressing well, with new gameplay mechanics and an expanded world map.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-date">April 2024</div>
+                        <h3>Release Window Announced</h3>
+                        <p>Rockstar Games has officially announced the release window for GTA 6, targeting Spring 2026.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
             </div>
-            <div class="time-segment">
-                <div id="seconds" class="time-value">00</div>
-                <div class="time-label">Seconds</div>
+        </section>
+
+        <section id="subscribe" class="subscribe-section">
+            <div class="container">
+                <h2>Stay Updated</h2>
+                <p>Subscribe to receive the latest news and updates about GTA 6 directly to your inbox.</p>
+                <form class="subscribe-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">GTA<span>VI</span> Release</div>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <p>This is a fan-made countdown website. Not affiliated with Rockstar Games or Take-Two Interactive.</p>
+                <p>&copy; 2024 GTA 6 Countdown. All rights reserved.</p>
             </div>
         </div>
-    </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

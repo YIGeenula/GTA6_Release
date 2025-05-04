@@ -136,10 +136,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const isShowingTrailer = trailerContainer.classList.contains('active');
         
         if (!isShowingTrailer) {
+            // Scroll to top of page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
             // Switch to trailer
             loadYouTubeTrailer();
             trailerContainer.classList.add('active');
-            document.documentElement.classList.add('no-scroll'); // Add this line
+            document.documentElement.classList.add('no-scroll');
             toggleTrailerBtn.innerHTML = '<i class="fas fa-image"></i> Switch to Background';
             toggleTrailerBtn.classList.add('active');
             toggleMuteBtn.disabled = false;
@@ -151,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             trailerContainer.classList.remove('active');
             trailerContainer.innerHTML = '';
-            document.documentElement.classList.remove('no-scroll'); // Add this line
+            document.documentElement.classList.remove('no-scroll');
             toggleTrailerBtn.innerHTML = '<i class="fas fa-film"></i> Switch to GTA 6 Trailer';
             toggleTrailerBtn.classList.remove('active');
             toggleMuteBtn.disabled = true;

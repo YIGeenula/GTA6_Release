@@ -292,3 +292,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Handle active navigation links on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all sections that have an ID defined
+    const sections = document.querySelectorAll("section[id]");
+    
+    // Add an event listener for scroll
+    window.addEventListener("scroll", navHighlighter);
+    
+    function navHighlighter() {
+        // Get current scroll position
+        let scrollY = window.pageYOffset;
+        
+        // Loop through sections to get height, top and ID values for each
+        sections.forEach(current => {
+            const sectionHeight = current.offsetHeight;
+            const sectionTop = current.offsetTop - 100; // Adjust offset as needed
+            const sectionId = current.getAttribute("id");
+            
+            // If our current scroll position enters the space where current section is
+            // add .active class to corresponding navigation link
+            // else remove it
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                document.querySelector("nav ul li a[href*=" + sectionId + "]").classList.add("active");
+            } else {
+                document.querySelector("nav ul li a[href*=" + sectionId + "]").classList.remove("active");
+            }
+        });
+    }
+});

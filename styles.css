@@ -416,6 +416,44 @@ html.no-scroll {
     padding: 8px 20px;
 }
 
+/* ... existing code ... */
+
+/* News Button Styles */
+.news-button-container {
+    margin: 20px 0 30px;
+}
+
+.news-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.news-button i {
+    margin-right: 8px;
+}
+
+.news-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(204, 47, 0, 0.5);
+}
+
+/* Featured News Card */
+.news-card.featured {
+    border-left: 4px solid var(--primary-color);
+    background-color: rgba(30, 30, 30, 0.9);
+    transform: scale(1.02);
+}
+
+/* ... existing code ... */
+
 /* Subscribe Section */
 .subscribe-section {
     background-color: var(--dark-bg);

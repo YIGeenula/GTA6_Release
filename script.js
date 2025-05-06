@@ -106,14 +106,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ===== CUSTOMIZE FUNCTIONALITY =====
     
-    // YouTube trailer video ID (GTA 6 Trailer)
-    const trailerVideoId = 'QdBZY2fkU-0';
+    // YouTube trailer video IDs
+    const trailerVideoId = 'QdBZY2fkU-0'; // Trailer 1
+    const trailer2VideoId = 'VQRLujxTm3c'; // Trailer 2 (new)
+    let currentTrailerId = trailerVideoId;
     let youtubePlayer = null;
     
     // Elements
     const customizeBtn = document.getElementById('customize-btn');
     const customizePanel = document.getElementById('customize-panel');
     const toggleTrailerBtn = document.getElementById('toggle-trailer');
+    const toggleTrailer2Btn = document.getElementById('toggle-trailer-2'); // New button
     const toggleMuteBtn = document.getElementById('toggle-mute');
     const toggleContentBtn = document.getElementById('toggle-content');
     const trailerContainer = document.getElementById('trailer-container');
@@ -135,25 +138,39 @@ document.addEventListener('DOMContentLoaded', function() {
     function isMobile() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
-    document.documentElement.requestFullscreen()
-    .catch(err => console.log('Fullscreen failed:', err));
     
-    // 1. Switch to GTA 6 Trailer
+    // 1. Switch to GTA 6 Trailer 1
     toggleTrailerBtn.addEventListener('click', function() {
-    const isShowingTrailer = trailerContainer.classList.contains('active');
+        currentTrailerId = trailerVideoId;
+        toggleTrailer(this);
+    });
+    
+    // 2. Switch to GTA 6 Trailer 2 (new)
+    toggleTrailer2Btn.addEventListener('click', function() {
+        currentTrailerId = trailer2VideoId;
+        toggleTrailer(this);
+    });
+    
+    // Common trailer toggle function
+    function toggleTrailer(button) {
+        const isShowingTrailer = trailerContainer.classList.contains('active');
+        
+        // Reset all trailer buttons
+        toggleTrailerBtn.classList.remove('active');
+        toggleTrailer2Btn.classList.remove('active');
         
         if (!isShowingTrailer) {
             // For mobile devices
-        if (isMobile()) {
-            // Lock orientation to landscape if supported
-            if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch(() => {});
+            if (isMobile()) {
+                // Lock orientation to landscape if supported
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(() => {});
+                }
+                
+                // Force fullscreen view
+                document.documentElement.requestFullscreen().catch(() => {});
+                trailerContainer.classList.add('mobile-fullscreen');
             }
-            
-            // Force fullscreen view
-            document.documentElement.requestFullscreen().catch(() => {});
-            trailerContainer.classList.add('mobile-fullscreen');
-        }
             // Scroll to top of page
             window.scrollTo({
                 top: 0,
@@ -164,23 +181,23 @@ document.addEventListener('DOMContentLoaded', function() {
             loadYouTubeTrailer();
             trailerContainer.classList.add('active');
             document.documentElement.classList.add('no-scroll');
-            toggleTrailerBtn.innerHTML = '<i class="fas fa-image"></i> Switch to Background';
-            toggleTrailerBtn.classList.add('active');
+            button.innerHTML = '<i class="fas fa-image"></i> Switch to Background';
+            button.classList.add('active');
             toggleMuteBtn.disabled = false;
         } else {
             // For mobile devices
-        if (isMobile()) {
-            // Unlock orientation
-            if (screen.orientation && screen.orientation.unlock) {
-                screen.orientation.unlock();
+            if (isMobile()) {
+                // Unlock orientation
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+                
+                // Exit fullscreen
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+                trailerContainer.classList.remove('mobile-fullscreen');
             }
-            
-            // Exit fullscreen
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
-            trailerContainer.classList.remove('mobile-fullscreen');
-        }
             // Switch back to background image
             if (youtubePlayer) {
                 youtubePlayer.destroy();
@@ -190,46 +207,43 @@ document.addEventListener('DOMContentLoaded', function() {
             trailerContainer.innerHTML = '';
             document.documentElement.classList.remove('no-scroll');
             toggleTrailerBtn.innerHTML = '<i class="fas fa-film"></i> Switch to GTA 6 Trailer';
-            toggleTrailerBtn.classList.remove('active');
+            toggleTrailer2Btn.innerHTML = '<i class="fas fa-film"></i> Switch to GTA 6 Trailer 2';
             toggleMuteBtn.disabled = true;
             toggleMuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i> Mute Trailer';
             toggleMuteBtn.classList.remove('active');
         }
-    });
+    }
     
-    // 2. Mute/Unmute Trailer Audio
+    // Mute/Unmute Trailer Audio
     toggleMuteBtn.addEventListener('click', function() {
         if (youtubePlayer) {
-            const isMuted = toggleMuteBtn.classList.contains('active');
-            
+            const isMuted = youtubePlayer.isMuted();
             if (isMuted) {
-                // Unmute
                 youtubePlayer.unMute();
-                toggleMuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i> Mute Trailer';
-                toggleMuteBtn.classList.remove('active');
+                this.innerHTML = '<i class="fas fa-volume-mute"></i> Mute Trailer';
+                this.classList.remove('active');
             } else {
-                // Mute
                 youtubePlayer.mute();
-                toggleMuteBtn.innerHTML = '<i class="fas fa-volume-up"></i> Unmute Trailer';
-                toggleMuteBtn.classList.add('active');
+                this.innerHTML = '<i class="fas fa-volume-up"></i> Unmute Trailer';
+                this.classList.add('active');
             }
         }
     });
     
-    // 3. Hide/Show Text and Countdown
+    // Toggle content visibility
     toggleContentBtn.addEventListener('click', function() {
         heroSection.classList.toggle('hide-content');
         
         if (heroSection.classList.contains('hide-content')) {
-            toggleContentBtn.innerHTML = '<i class="fas fa-eye"></i> Show Text & Countdown';
-            toggleContentBtn.classList.add('active');
+            this.innerHTML = '<i class="fas fa-eye"></i> Show Text & Countdown';
+            this.classList.add('active');
         } else {
-            toggleContentBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Text & Countdown';
-            toggleContentBtn.classList.remove('active');
+            this.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Text & Countdown';
+            this.classList.remove('active');
         }
     });
     
-    // Load YouTube API and create player
+    // Load YouTube trailer
     function loadYouTubeTrailer() {
         // If YouTube API is not loaded yet
         if (!window.YT) {
@@ -249,23 +263,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Create YouTube player
     function createYouTubePlayer() {
         // Clear container first
         trailerContainer.innerHTML = '<div id="youtube-player"></div>';
         
         youtubePlayer = new YT.Player('youtube-player', {
-            videoId: trailerVideoId,
+            videoId: currentTrailerId,
             playerVars: {
-            autoplay: 1,
-            controls: 0,
-            modestbranding: 1,
-            loop: 1,
-            playlist: trailerVideoId,
-            rel: 0,
-            showinfo: 0,
-            playsinline: 0, // Force fullscreen playback on iOS
-            fs: 1 // Show fullscreen button
+                autoplay: 1,
+                controls: 0,
+                modestbranding: 1,
+                loop: 1,
+                playlist: currentTrailerId,
+                rel: 0,
+                showinfo: 0,
+                playsinline: 0, // Force fullscreen playback on iOS
+                fs: 1 // Show fullscreen button
             },
             events: {
                 onReady: function(event) {
